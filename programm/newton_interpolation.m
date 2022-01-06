@@ -5,13 +5,13 @@
 
 % Anzahl an Stuetzstellen
 
-n =  13 %input("gib Anzahl an Stuetzstellen \n");
+global n =  13 %input("gib Anzahl an Stuetzstellen \n");
 a = -pi %input("gib Intervall untergrenze \n");
 b =  pi %input("gib Intervall obergrenze \n");
 
 schrittweite = (b - a)/(n-1)
-x = a : schrittweite : b
-y = [];
+global x = a : schrittweite : b;
+global y = [];
 
 function [y] = sinus_funktion(x)
     y = x*sin(x);
@@ -23,4 +23,23 @@ end
 
 y
 
-% function [pol] = newton_interpolation(s, )
+function [s] = steigung(ordnung, position)
+    global x;
+    global y;
+    if(ordnung == 0)
+        s = y(position);
+    else
+        s = ((steigung(ordnung-1,position+1)-steigung(ordnung-1,position)))/(x(position+ordnung)-x(position));
+    endif
+endfunction
+
+function [] = newton_interpolation()
+    global n; 
+    c = [];
+    for i = 1 : n
+        c(i) = steigung(i-1,1);
+    end
+    c
+endfunction
+
+newton_interpolation()
