@@ -33,13 +33,24 @@ function [s] = steigung(ordnung, position)
     endif
 endfunction
 
-function [] = newton_interpolation()
+function [pol] = newton_interpolation()
     global n; 
+    global x;
+    global y;
     c = [];
     for i = 1 : n
         c(i) = steigung(i-1,1);
     end
     c
+    end_polynom = zeros(1,n);
+    for i = 1 : n
+        polynom = [c(i)];
+        for j = 1 : i-1
+            polynom = conv(polynom,[1,-x(j)]);
+        end
+        fill = zeros(1, n-i);
+        end_polynom = end_polynom + [fill, polynom];
+    end
+    pol = end_polynom;
 endfunction
-
 newton_interpolation()
